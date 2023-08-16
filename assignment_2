@@ -1,0 +1,37 @@
+fn main() {
+    let num1 = 10;
+    let num2 = 5;
+
+    let addition_result = add(&num1, &num2);
+    println!("{} + {} = {}", num1, num2, addition_result);
+
+    let subtraction_result = subtract(&num1, &num2);
+    println!("{} - {} = {}", num1, num2, subtraction_result);
+
+    let multiplication_result = multiply(&num1, &num2);
+    println!("{} * {} = {}", num1, num2, multiplication_result);
+
+    let division_result = divide(&num1, &num2);
+    println!("{} / {} = {}", num1, num2, division_result);
+}
+
+fn add(a: &i32, b: &i32) -> i32 {
+    *a + *b
+}
+
+fn subtract(a: &i32, b: &i32) -> i32 {
+    *a - *b
+}
+
+fn multiply(a: &i32, b: &i32) -> i32 {
+    *a * *b
+}
+
+fn divide(a: &i32, b: &i32) -> f64 {
+    (*a as f64) / (*b as f64)
+}
+output
+10 + 5 = 15
+10 - 5 = 5
+10 * 5 = 50
+10 / 5 = 2
