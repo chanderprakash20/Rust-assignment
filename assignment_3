@@ -1,0 +1,131 @@
+use std::collections::HashMap;
+use std::io;
+
+// Define the Employee struct
+#[derive(Debug)] // Add this line to derive the Debug trait
+struct Employee {
+    employee_id: u32,
+    employee_name: String,
+    email: String,
+    age: u32,
+    phone_number: String,
+}
+
+// Function to search for an employee by employee_id
+fn find_employee_by_id(employee_id: u32, employees: &HashMap<u32, Employee>) -> Option<&Employee> {
+    employees.get(&employee_id)
+}
+
+// Function to find employees with the same age
+fn find_employees_by_age(age: u32, employees: &HashMap<u32, Employee>) -> Vec<&Employee> {
+    employees.values().filter(|employee| employee.age == age).collect()
+}
+
+fn main() {
+    let mut employees: HashMap<u32, Employee> = HashMap::new();
+
+    loop {
+        println!("Enter employee details:");
+
+        let mut employee_name = String::new();
+        println!("Employee Name:");
+        io::stdin().read_line(&mut employee_name).expect("Failed to read line");
+        let employee_name = employee_name.trim().to_string();
+
+        let mut employee_id_str = String::new();
+        println!("Employee ID:");
+        io::stdin().read_line(&mut employee_id_str).expect("Failed to read line");
+        let employee_id: u32 = employee_id_str.trim().parse().expect("Invalid employee ID");
+
+        let mut email = String::new();
+        println!("Email:");
+        io::stdin().read_line(&mut email).expect("Failed to read line");
+        let email = email.trim().to_string();
+
+        let mut age_str = String::new();
+        println!("Age:");
+        io::stdin().read_line(&mut age_str).expect("Failed to read line");
+        let age: u32 = age_str.trim().parse().expect("Invalid age");
+
+        let mut phone_number = String::new();
+        println!("Phone Number:");
+        io::stdin().read_line(&mut phone_number).expect("Failed to read line");
+        let phone_number = phone_number.trim().to_string();
+
+        let employee = Employee {
+            employee_id,
+            employee_name,
+            email,
+            age,
+            phone_number,
+        };
+
+        employees.insert(employee_id, employee);
+
+        println!("Do you want to add another employee? (y/n)");
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).expect("Failed to read line");
+        if input.trim() != "y" {
+            break;
+        }
+    }
+
+    println!("Enter an employee ID to search:");
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).expect("Failed to read line");
+    let employee_id: u32 = input.trim().parse().expect("Invalid employee ID");
+
+    match find_employee_by_id(employee_id, &employees) {
+        Some(employee) => println!("Employee found: {:?}", employee),
+        None => println!("Employee not found"),
+    }
+
+    println!("Enter an age to find employees with the same age:");
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).expect("Failed to read line");
+    let age: u32 = input.trim().parse().expect("Invalid age");
+
+    let same_age_employees = find_employees_by_age(age, &employees);
+    if same_age_employees.is_empty() {
+        println!("No employees with the specified age found");
+    } else {
+        println!("Employees with the same age:");
+        for employee in same_age_employees {
+            println!("{:?}", employee);
+        }
+    }
+}
+output:
+Enter employee details:
+Employee Name:
+dk
+Employee ID:
+123
+Email:
+cps132002@gmail.com
+Age:
+12
+Phone Number:
+9050892387
+Do you want to add another employee? (y/n)
+y
+Enter employee details:
+Employee Name:
+dk
+Employee ID:
+123
+Email:
+134
+Age:
+13
+Phone Number:
+998756
+Do you want to add another employee? (y/n)
+n
+Enter an employee ID to search:
+13
+Employee not found
+Enter an age to find employees with the same age:
+14
+No employees with the specified age found
+out put of above code:
