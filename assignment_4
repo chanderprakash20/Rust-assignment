@@ -1,0 +1,82 @@
+use std::io;
+
+struct Student {
+    name: String,
+    email: String,
+    phno: String,
+    id: u32,
+}
+
+fn main() {
+    let mut students: Vec<Student> = Vec::new();
+
+    // Adding sample student details
+    students.push(Student {
+        name: String::from("Alice"),
+        email: String::from("alice@example.com"),
+        phno: String::from("123-456-7890"),
+        id: 1,
+    });
+    students.push(Student {
+        name: String::from("Bob"),
+        email: String::from("bob@example.com"),
+        phno: String::from("987-654-3210"),
+        id: 2,
+    });
+
+    // Using a loop to get student details
+    for _ in 0..3 {
+        match get_student_details(&students) {
+            Ok(student) => students.push(student),
+            Err(error) => println!("Error: {}", error),
+        }
+    }
+
+    // Printing the list of students
+    println!("List of Students:");
+    for student in &students {
+        println!("Name: {}, Email: {}, Phone: {}, ID: {}", student.name, student.email, student.phno, student.id);
+    }
+}
+
+fn get_student_details(existing_students: &Vec<Student>) -> Result<Student, String> {
+    let mut name = String::new();
+    let mut email = String::new();
+    let mut phno = String::new();
+    let mut id = String::new();
+
+    println!("Enter student details:");
+    
+    print!("Name: ");
+    io::stdin().read_line(&mut name).expect("Failed to read input");
+    name = name.trim().to_string();
+
+    print!("Email: ");
+    io::stdin().read_line(&mut email).expect("Failed to read input");
+    email = email.trim().to_string();
+
+    print!("Phone Number: ");
+    io::stdin().read_line(&mut phno).expect("Failed to read input");
+    phno = phno.trim().to_string();
+
+    print!("ID: ");
+    io::stdin().read_line(&mut id).expect("Failed to read input");
+    id = id.trim().to_string();
+
+    let id: u32 = match id.parse() {
+        Ok(num) => num,
+        Err(_) => return Err(String::from("Invalid ID")),
+    };
+
+    // Check for duplicate ID
+    if existing_students.iter().any(|student| student.id == id) {
+        return Err(String::from("ID already exists"));
+    }
+
+    Ok(Student {
+        name,
+        email,
+        phno,
+        id,
+    })
+}
